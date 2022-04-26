@@ -5,9 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href = "styles">
-        <title>Pollux Paragon Mall Semarang</title>
-        <meta itemprop="image" content="https://paragonsemarang.id/wp-content/uploads/2021/03/Pollux-Mall-Paragon-200.png" />
-        <link rel="icon" href="https://paragonsemarang.id/wp-content/uploads/2021/03/Pollux-Mall-Paragon-200.png" />
+        <title>Smart Room Monitoring System</title>
         <style>
             body,h1,h2,h3,h4,h5,h6 {font-family: "Karma", sans-serif; text-align: center;}
             body {
@@ -50,22 +48,16 @@
 
         </style>
     </head>
-    <body style="background: rgb(207, 200, 200);">
-        <div class="topnav">
-            <a class="active" href="#home">Parking System</a>
-            <a href = "#pathfinding">Pathfinding</a>
-            <a href="#contact">Contact us</a>
-        </div>
-        <h1 class="center-fit" style ="background-color: aquamarine;color: rgb(0, 0, 0);background: rgb(189, 189, 189); font-size: 50px; padding-bottom: 50px;">
-            SMART PARKING SYSTEM <br> <div style="font-size: 35px;color: rgb(44, 45, 92);">PARAGON MALL</div>
+    <body>
+        <h1 class="center-fit" style ="font-size: 50px; padding-bottom: 50px;">
+            <div style="font-size: 35px;color: rgb(44, 45, 92);">Ruang 4200</div>
         </h1>
-        <div class= "imgbox">    
-            <img class= "center-fit" src="paragon-mall-semarang.jpg" width="1500" height ="800">
-        </div>
-        <div style="width: 100%">
-            <br><br>
-            <h2 class = "center-fit" style ="background-color:grey;padding: 0; font-size: 35px;">Parking Slots</h2>
-            <div style ="color: white;">      
+        <div style="width: 100%; display:flex; justify-content: space-between">
+            <div style="width:50%; height:100px;float: left;font-size: 20px;">
+                <img src="Warning.png" style="margin-right: 20px">
+                Terdapat 0 kejadian penting
+                <br> Lihat di bawah
+            </div>    
         <?php
         /*
           Rui Santos
@@ -95,33 +87,37 @@
         } 
 
         $sql = "SELECT value FROM events ORDER BY id DESC LIMIT 5";
-        $sql2 = "SELECT value FROM room_status ORDER BY id DESC LIMIT 1";
+        $sql2 = "SELECT lamp_status, current_total FROM room_status LIMIT 1";
 
-        function getSlotColor($value) {
-            if ($value < 10 || ($value > 50)) {
-                return "#42f560";
-            }
-            return "#f54b42";
-        }
-
-        if ($result = $conn->query($sql)) {
-            while ($row = $result->fetch_assoc()) {
-                $row_value = $row["value"];
+        // if ($result = $conn->query($sql)) {
+        //     while ($row = $result->fetch_assoc()) {
+        //         $row_value = $row["value"];
                 
-                echo '
-                    <div style="background:' . getSlotColor($row_value) . '; width:50%; height:100px;float: left;font-size: 30px; outline: 3px solid black;">Slot 1: ' . $row_value . '</div>
-                ';
+        //         echo '
+        //             <div style="background: blue ; width:50%; height:100px;float: left;font-size: 30px; outline: 3px solid black;">Terdapat 0 kejadian penting <br>Lihat di bawah ' . $row_value . '/17</div>
+        //         ';
 
 
-            }
-            $result->free();
-        }
+        //     }
+        //     $result->free();
+        // }
+
         if ($result2 = $conn->query($sql2)) {
             while ($row2 = $result2->fetch_assoc()) {
-                $row_value2 = $row2["value"];
+                $lamp_status = $row2["lamp_status"];
+                $current_total = $row2["current_total"];
                 
                 echo '
-                    <div style="background:' . getSlotColor($row_value2) . '; width:50%; height:100px;float: left;font-size: 30px; outline: 3px solid black;">Slot 2: ' . $row_value2 . '</div>
+                    <div style="width:50%; font-size: 30px; border-left: 1px solid black; diplay: flex; align-items: center;""> <img src="Visitor.png" style="margin-right: 20px">' . $lamp_status . '/17</div>
+                ';
+
+                echo ($current_total == "1") ? 
+                '
+                    <div style="width:50%; font-size: 30px; border-left: 1px solid black; diplay: flex; align-items: center;""> <img src="Lightbulb.png" style="margin-right: 20px"> ON </div>
+                '
+                : 
+                '
+                    <div style="width:50%; font-size: 30px; border-left: 1px solid black; diplay: flex; align-items: center;"> <img src="Lightbulb.png" style="margin-right: 20px"> OFF </div>
                 ';
 
             }
@@ -130,7 +126,16 @@
 
         $conn->close();
         ?>
+    </div>
+    <div style="float: left; display: flex; flex-direction: column; margin-top: 20px; text-align: left;">
+        <h3 style="float: left;">
+            Kejadian Penting
+        </h3>
+        <br>
+        <div>
+            Tidak ada kejadian penting baru
         </div>
+    </div>
     </div>
     <br><br><br><br>
     </div>
